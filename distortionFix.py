@@ -12,8 +12,8 @@ from   bidsFSUtils import bidsToolsFS
 
 defaultExt = ".nii"
 
-allSub = ["sub-%02d" % i for i in range(1,99)]
-allSes = ["ses-%02d" % j for j in range(1,5)]
+allSub = ["sub-80%02d" % i for i in range(1,38)]
+allSes = ["ses-preTMS", "ses-pstTMS"]
 allData = []
 
 for sub in allSub:
@@ -22,11 +22,8 @@ for sub in allSub:
       allData.append(subSes)
 
 # List of subjects with poor initial alignment of epi and anat
-dataNeedingGiantMove = ["sub-09_ses-03", "sub-12_ses-02", "sub-14_ses-02", "sub-18_ses-04", "sub-25_ses-01",
-                        "sub-31_ses-01", "sub-32_ses-02", "sub-36_ses-01", "sub-37_ses-02"]
-
-forwardReverseBlipsInDifferentPositions = ["sub-09_ses-03", "sub-14_ses-02", "sub-22_ses-01", "sub-34_ses-01",
-                                           "sub-37_ses-02"]
+# Use giantmove for everyone, should be safe...
+dataNeedingGiantMove = allData
 
 # checkAllUnwarpDirs = True will align all unwarp directions in afniB0 and fslB0 functions using ANTs
 # checkAllUnwarpDirs = False will only align unwarp directions defined in afniUnwarpVals and fslUnwarpVals
@@ -38,19 +35,8 @@ checkAllUnwarpDirs = False
 #               "sub-22_ses-03", "sub-22_ses-02", "sub-24_ses-01", "sub-25_ses-01", "sub-26_ses-01",
 #               "sub-27_ses-01", "sub-28_ses-02", "sub-28_ses-01", "sub-32_ses-01", "sub-32_ses-02",
 #               "sub-33_ses-01", "sub-34_ses-01", "sub-37_ses-02", "sub-39_ses-02", "sub-41_ses-01"]
-unwarpKeys = ["sub-07_ses-04", "sub-14_ses-02", "sub-22_ses-02", "sub-22_ses-03", "sub-24_ses-01",
-              "sub-26_ses-01", "sub-27_ses-01", "sub-32_ses-01", "sub-33_ses-01", "sub-34_ses-01",
-              "sub-39_ses-02"]
-# Input unwarp directions based on best fixed epi by visual inspection
-# after fslB0 corrections using all 4 directions
-# fslUnwarpVals = ["x-", "y-", "y-", "y-", "x",
-#                  "x",  "y-", "x-", "x",  "y-",
-#                  "y-", "y-", "y-", "x-", "y-",
-#                  "y-", "x-", "x",  "y-", "x-",
-#                  "y-", "y-", "y-", "y-", "x-"]
-fslUnwarpVals = ["y-", "y-", "y-", "y-", "y-",
-                 "y-", "y-", "y-", "y-", "y-",
-                 "y-"]
+unwarpKeys = allData 
+fslUnwarpVals = ["y-"]
 fslUnwarpDict = dict(zip(unwarpKeys, fslUnwarpVals))
 
 # afniUnwarpVals = ["AP_-1.0", "AP_-1.0", "AP_-1.0", "RL_-1.0", "AP_-1.0",
